@@ -1,5 +1,5 @@
 <?php if (!defined("APPLICATION")) exit();
-/*	Copyright 2013 Zachary Doll
+/*	Copyright 2014 Zachary Doll
 *	This program is free software: you can redistribute it and/or modify
 *	it under the terms of the GNU General Public License as published by
 *	the Free Software Foundation, either version 3 of the License, or
@@ -16,7 +16,7 @@
 $PluginInfo['blanderblog'] = array(
 	'Name' => 'Blander Blog',
 	'Description' => 'A blog plugin for vanilla 2.1. Inspired by the excellent NillaBlog plugin by Dan Dumont (ddumont@gmail.com).',
-	'Version' => '0.1',
+	'Version' => '0.2',
 	'Author' => 'Zachary Doll',
 	'AuthorEmail' => 'hgtonight@daklutz.com',
 	'SettingsUrl' => '/dashboard/settings/blanderblog',
@@ -70,7 +70,8 @@ class BlanderBlog extends Gdn_Plugin {
 	 * @param $Sender
 	 */
 	public function CategoriesController_BeforeGetDiscussions_Handler($Sender) {
-		if (in_array($Sender->CategoryID, C('Plugins.BlanderBlog.CategoryIDs'))) {
+		if (property_exists($Sender, 'CategoryID') 
+            && in_array($Sender->CategoryID, C('Plugins.BlanderBlog.CategoryIDs'))) {
 			$Sender->EventArguments['PerPage'] = C('Plugins.BlanderBlog.PostsPerPage');
 		}
 	}
@@ -81,7 +82,8 @@ class BlanderBlog extends Gdn_Plugin {
 	 * @param $Sender
 	 */
 	public function CategoriesController_BeforeBlogName_Handler($Sender) {
-		if (in_array($Sender->CategoryID, C('Plugins.BlanderBlog.CategoryIDs'))) {
+		if (property_exists($Sender, 'CategoryID')
+            && in_array($Sender->CategoryID, C('Plugins.BlanderBlog.CategoryIDs'))) {
 			$Sender->EventArguments['CssClass'] .= ' Blog Blog'.$Sender->CategoryID.' ';
 		}
 	}
@@ -92,7 +94,8 @@ class BlanderBlog extends Gdn_Plugin {
 	 * @param $Sender
 	 */
 	public function DiscussionController_BeforeCommentDisplay_Handler($Sender) {
-		if (in_array($Sender->CategoryID, C('Plugins.BlanderBlog.CategoryIDs'))) {
+		if (property_exists($Sender, 'CategoryID')
+            && in_array($Sender->CategoryID, C('Plugins.BlanderBlog.CategoryIDs'))) {
 			$Sender->EventArguments['CssClass'] .= ' Blog Blog'.$Sender->CategoryID.' ';
 		}
 	}
